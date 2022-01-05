@@ -1,0 +1,35 @@
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+
+import '../../constants.dart';
+
+class AppSettingsController extends GetxController {
+  final darkMode = false.obs;
+  final lang = false.obs;
+  final box = GetStorage();
+
+  @override
+  void onInit() {
+    super.onInit();
+      // change theme from darkmode default value app setting controller
+    darkMode(box.read('dark') ?? false);
+    lang(box.read('language') ?? true);
+    log('${lang(box.read('language') ?? true)}');
+    Get.changeTheme(darkMode.value ? darkTheme : lightTheme);
+  }
+
+  void addThemeListener() {
+    box.listenKey('dark', (value) {
+      Get.changeTheme(value ? darkTheme : lightTheme);
+    });
+  }
+
+  void addLanguageListener() {
+    box.listenKey('language', (value) {
+      Get.updateLocale(!value ? const Locale('en', 'US') : const Locale('ar', 'EG'));
+    });
+  }
+}
