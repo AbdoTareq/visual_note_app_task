@@ -74,15 +74,12 @@ class _AnimatedSplashState extends State<AnimatedSplash> with SingleTickerProvid
           });
 
     return Scaffold(
-        backgroundColor: kbackgroundColor,
         body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            40.heightBox,
-            ScaleTransition(
-                scale: _animation,
-                child: SizedBox(child: Image.asset(_imagePath))).wFull(context),
-          ],
-        ));
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        40.heightBox,
+        ScaleTransition(scale: _animation, child: SizedBox(child: Image.asset(_imagePath))).wFull(context),
+      ],
+    ));
   }
 }

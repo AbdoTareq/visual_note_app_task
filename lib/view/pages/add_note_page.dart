@@ -11,6 +11,7 @@ import 'package:visual_note_app_task/view/widgets/custom_app_bar.dart';
 import 'package:visual_note_app_task/view/widgets/text_input.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+// Page to create or update note
 class AddNotePage extends GetView<NoteController> {
   AddNotePage(this.note, {Key? key}) : super(key: key);
 
@@ -60,7 +61,7 @@ class AddNotePage extends GetView<NoteController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     MaterialButton(
-                        color: Colors.blue,
+                        color: kPrimaryColor,
                         onPressed: () async {
                           controller.image.value = await _picker.pickImage(source: ImageSource.gallery);
                         },
@@ -70,7 +71,7 @@ class AddNotePage extends GetView<NoteController> {
                         ? Container()
                         : Image.file(File(controller.image.value!.path)).wh10(context)),
                     MaterialButton(
-                        color: Colors.blue,
+                        color: kPrimaryColor,
                         onPressed: () async {
                           controller.selectedDate(await showDatePicker(
                               context: context,
@@ -93,7 +94,7 @@ class AddNotePage extends GetView<NoteController> {
                 ),
                 20.heightBox,
                 MaterialButton(
-                    color: Colors.blue,
+                    color: kPrimaryColor,
                     onPressed: () async => await controller.saveNote(id: note != null ? note!.id : null),
                     splashColor: Colors.blueGrey,
                     child: 'Save'.text.bold.xl.make().p8()),

@@ -2,15 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:visual_note_app_task/constants.dart';
 import 'package:visual_note_app_task/controller/note_controller.dart';
 import 'package:visual_note_app_task/view/pages/add_note_page.dart';
 import 'package:visual_note_app_task/view/widgets/app_drawer.dart';
 import 'package:visual_note_app_task/view/widgets/custom_app_bar.dart';
-import 'package:visual_note_app_task/view/widgets/text_input.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+// Page to list all or delete note
 class HomePage extends GetView<NoteController> {
   const HomePage({Key? key}) : super(key: key);
 
@@ -61,7 +60,7 @@ class HomePage extends GetView<NoteController> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => Get.to(() => AddNotePage(null)),
         child: const Icon(Icons.add, color: Colors.white),
-        backgroundColor: Colors.blue,
+        backgroundColor: kPrimaryColor,
       ),
     );
   }
