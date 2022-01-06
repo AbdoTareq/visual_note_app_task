@@ -8,15 +8,25 @@ import 'package:visual_note_app_task/repos/note_repo.dart';
 
 import '../constants.dart';
 
-class HomeController extends GetxController {
+class NoteController extends GetxController {
   final NoteRepository repository;
-  HomeController(this.repository);
+  NoteController(this.repository);
+
   Rx<XFile?> image = XFile('').obs;
   final selectedDate = DateTime(1960).obs;
   final GlobalKey<FormState> formKey = GlobalKey();
   RxBool isOpen = false.obs;
-
   List<TextEditingController> textControllers = List.generate(2, (index) => TextEditingController());
+
+  final notes = <Note>[].obs;
+
+  @override
+  void onReady() async {
+    await getAll();
+    super.onReady();
+  }
+
+  Future getAll() async => notes(await repository.getAll());
 
   Future<void> saveNote() async {
     if (formKey.currentState!.validate()) {
@@ -28,5 +38,7 @@ class HomeController extends GetxController {
           isOpen: isOpen.value ? 1 : 0);
       logger.i("${(await repository.insert(note)).toMap()}");
     }
+    await getAll();
+    Get.back();
   }
 }

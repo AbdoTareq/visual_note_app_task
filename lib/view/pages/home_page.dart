@@ -4,98 +4,53 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:visual_note_app_task/constants.dart';
-import 'package:visual_note_app_task/controller/home_controller.dart';
+import 'package:visual_note_app_task/controller/note_controller.dart';
+import 'package:visual_note_app_task/view/pages/add_note_page.dart';
 import 'package:visual_note_app_task/view/widgets/app_drawer.dart';
 import 'package:visual_note_app_task/view/widgets/custom_app_bar.dart';
 import 'package:visual_note_app_task/view/widgets/text_input.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-class HomePage extends GetView<HomeController> {
-  HomePage({Key? key}) : super(key: key);
+class HomePage extends GetView<NoteController> {
+  const HomePage({Key? key}) : super(key: key);
 
-  final ImagePicker _picker = ImagePicker();
-  // Pick an image
-
-  var image;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const CustomAppBar(
-          title: 'Note App',
-        ),
-        drawer: const AppDrawer(),
-        body: SafeArea(
-          child: Form(
-            key: controller.formKey,
-            child: ListView(
-              children: [
-                60.heightBox,
-                'Add Note:'.text.bold.xl2.color(kPrimaryColor).xl.make().p8(),
-                20.heightBox,
-                TextInput(
-                  controller: controller.textControllers[0],
-                  hint: 'Title',
-                  validate: (value) => value!.isEmpty ? 'Eenter some text' : null,
-                ),
-                TextInput(
-                  controller: controller.textControllers[1],
-                  hint: 'Description',
-                  validate: (value) => value!.isEmpty ? 'Eenter some text' : null,
-                ),
-                Obx(
-                  () => CheckboxListTile(
-                    contentPadding: EdgeInsets.zero,
-                    controlAffinity: ListTileControlAffinity.leading,
-                    title: Text('isOpen'.tr),
-                    value: controller.isOpen.value,
-                    onChanged: (value) => controller.isOpen.toggle(),
-                  ),
-                ),
-                20.heightBox,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    MaterialButton(
-                        color: Colors.blue,
-                        onPressed: () async {
-                          controller.image.value = await _picker.pickImage(source: ImageSource.gallery);
-                        },
-                        splashColor: Colors.blueGrey,
-                        child: 'Pick image'.text.bold.xl.make().p8()),
-                    Obx(() => controller.image.value!.path.isEmpty
-                        ? Container()
-                        : Image.file(File(controller.image.value!.path)).wh10(context)),
-                    MaterialButton(
-                        color: Colors.blue,
-                        onPressed: () async {
-                          controller.selectedDate(await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(1950),
-                              lastDate: DateTime.now()));
-                        },
-                        splashColor: Colors.blueGrey,
-                        child: Obx(
-                          () => (controller.selectedDate.value.year == 1960
-                                  ? 'Pick a date'
-                                  : controller.selectedDate.string.substring(0, 10))
-                              .text
-                              .bold
-                              .xl
-                              .make()
-                              .p8(),
-                        )),
-                  ],
-                ),
-                20.heightBox,
-                MaterialButton(
-                    color: Colors.blue,
-                    onPressed: controller.saveNote,
-                    splashColor: Colors.blueGrey,
-                    child: 'Save'.text.bold.xl.make().p8()),
-              ],
-            ).p16(),
-          ),
-        ));
+      appBar: const CustomAppBar(
+        title: 'Note App',
+      ),
+      drawer: const AppDrawer(),
+      body: SafeArea(
+        child: GetX<NoteController>(builder: (_) {
+          return _.notes.isEmpty
+              ? 'ar_no_data'.tr.text.makeCentered()
+              : ListView.separated(
+                  separatorBuilder: (context, index) => const Divider(height: 1),
+                  itemCount: controller.notes.length,
+                  itemBuilder: (context, index) {
+                    final item = controller.notes[index];
+                    return index == controller.notes.length
+                        ? const Divider(height: 80)
+                        : ListTile(
+                            title: item.title.text.make(),
+                            subtitle: item.title.text.make(),
+                            leading: Image.file(File(item.image), width: 66, height: 66, fit: BoxFit.fill),
+                            trailing: Column(
+                              children: [
+                                item.dateInMiliSeconds.substring(0, 10).text.make().p8(),
+                                (item.isOpen == 1 ? 'Open' : 'Closed').text.make(),
+                              ],
+                            ),
+                          );
+                  });
+        }),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Get.to(() => AddNotePage()),
+        child: const Icon(Icons.add, color: Colors.white),
+        backgroundColor: Colors.blue,
+      ),
+    );
   }
 }
