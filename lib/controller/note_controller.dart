@@ -27,7 +27,7 @@ class NoteController extends GetxController {
     super.onReady();
   }
 
-  setFieldsToUpdate(Note note) {
+  setFieldsToIfUpdateNote(Note note) {
     textControllers[0].text = note.title;
     textControllers[1].text = note.description;
     isOpen(note.isOpen == 1);

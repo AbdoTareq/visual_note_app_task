@@ -22,7 +22,7 @@ class AddNotePage extends GetView<NoteController> {
   @override
   Widget build(BuildContext context) {
     if (note != null) {
-      controller.setFieldsToUpdate(note!);
+      controller.setFieldsToIfUpdateNote(note!);
     }
     return Scaffold(
         appBar: const CustomAppBar(
@@ -63,7 +63,7 @@ class AddNotePage extends GetView<NoteController> {
                     MaterialButton(
                         color: kPrimaryColor,
                         onPressed: () async {
-                          controller.image.value = await _picker.pickImage(source: ImageSource.gallery);
+                          controller.image.value = await _picker.pickImage(source: ImageSource.camera);
                         },
                         splashColor: Colors.blueGrey,
                         child: 'Pick image'.text.bold.xl.make().p8()),

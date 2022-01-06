@@ -23,7 +23,7 @@ class HomePage extends GetView<NoteController> {
       body: SafeArea(
         child: GetX<NoteController>(builder: (_) {
           return _.notes.isEmpty
-              ? 'ar_no_data'.tr.text.makeCentered()
+              ? 'no notes, add one'.tr.text.xl2.bold.makeCentered()
               : Column(
                   children: [
                     'Swip note to delete & tap to edit'.text.bold.xl.red500.make().p8(),
