@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:visual_note_app_task/models/note.dart';
 import 'package:visual_note_app_task/repos/note_repo.dart';
+import 'package:visual_note_app_task/utils/utils.dart';
 
 import '../constants.dart';
 
+// controll notes to manipulate notes
 class NoteController extends GetxController {
   final NoteRepository repository;
   NoteController(this.repository);
@@ -27,7 +28,6 @@ class NoteController extends GetxController {
   }
 
   setFieldsToUpdate(Note note) {
-     
     textControllers[0].text = note.title;
     textControllers[1].text = note.description;
     isOpen(note.isOpen == 1);
@@ -49,6 +49,12 @@ class NoteController extends GetxController {
 
   Future<void> saveNote({int? id}) async {
     if (formKey.currentState!.validate()) {
+      if (selectedDate.value.year == 1960) {
+        return showWarningDialog(text: 'Pick a date');
+      }
+      if (image.value!.path.isEmpty) {
+        return showWarningDialog(text: 'Pick an image');
+      }
       var note = id == null
           ? Note(
               title: textControllers[0].text,
