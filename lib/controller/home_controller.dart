@@ -1,26 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'package:get/get.dart';
+import 'package:visual_note_app_task/repos/note_repo.dart';
+
 class HomeController extends GetxController {
-  final RxInt _selectedIndex = 0.obs;
-  get selectedIndex => _selectedIndex.value;
-  set selectedIndex(value) => _selectedIndex.value = value;
+  final NoteRepository repository;
+  HomeController(this.repository);
 
-  late PageController pageController;
-  @override
-  void onInit() {
-    super.onInit();
-    pageController = PageController();
-  }
+  List<TextEditingController> textControllers = List.generate(2, (index) => TextEditingController());
 
-  void goToIndex(int index) {
-    selectedIndex = index;
-    pageController.jumpToPage(index);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    pageController.dispose();
-  }
+  RxBool isOpen = false.obs;
 }
