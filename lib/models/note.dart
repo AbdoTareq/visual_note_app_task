@@ -37,7 +37,7 @@ class Note {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      '_id': id,
       'title': title,
       'description': description,
       'dateInMiliSeconds': dateInMiliSeconds,
@@ -48,7 +48,7 @@ class Note {
 
   factory Note.fromMap(Map<dynamic, dynamic> map) {
     return Note(
-      id: map['id']?.toInt(),
+      id: map['_id']?.toInt(),
       title: map['title'] ?? '',
       description: map['description'] ?? '',
       dateInMiliSeconds: map['dateInMiliSeconds'] ?? '',
@@ -63,7 +63,7 @@ class Note {
 
   @override
   String toString() {
-    return 'Note(id: $id, title: $title, description: $description, dateInMiliSeconds: $dateInMiliSeconds, image: $image, isOpen: $isOpen)';
+    return 'Note(_id: $id, title: $title, description: $description, dateInMiliSeconds: $dateInMiliSeconds, image: $image, isOpen: $isOpen)';
   }
 
   @override

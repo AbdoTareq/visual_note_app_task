@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocalizedDescription</key>
+	<string>Needed in saving add note image</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Needed in taking photos to add note image</string>
 	<key>NSCameraUsageDescription</key>

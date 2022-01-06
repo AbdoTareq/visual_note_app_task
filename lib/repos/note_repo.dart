@@ -9,7 +9,7 @@ const String columnId = '_id';
 const String columnTitle = 'title';
 const String columnDescription = 'description';
 const String columnImage = 'image';
-const String columnDate = 'date';
+const String columnDate = 'dateInMiliSeconds';
 const String columnIsOpen = 'isOpen';
 
 abstract class NoteRepository {
@@ -33,30 +33,32 @@ class DbManager implements NoteRepository {
   Future open() async {
     // Get a location using getDatabasesPath
     var databasesPath = await getDatabasesPath();
-    String path = databasesPath + 'demo.db';
+    String path = databasesPath + '/demo.db';
     logger.i(path);
 
-//     db = await openDatabase(path, version: 1, onCreate: (Database db, int version) async {
-//       await db.execute('''
-// create table $tableNote (
-//   $columnId integer primary key autoincrement,
-//   $columnTitle text not null,
-//   $columnDescription text not null,
-//   $columnDate integer not null,
-//   $columnImage blob not null,
-//   $columnIsOpen integer not null)
-// ''');
-//     });
+    db = await openDatabase(path, version: 1, onCreate: (Database db, int version) async {
+      await db.execute('''
+create table $tableNote (
+  $columnId integer primary key autoincrement,
+  $columnTitle text not null,
+  $columnDescription text not null,
+  $columnDate integer not null,
+  $columnImage blob not null,
+  $columnIsOpen integer not null)
+''');
+    });
   }
 
   @override
   Future<Note> insert(Note note) async {
+   await open();
     note.copyWith(id: await db.insert(tableNote, note.toMap()));
     return note;
   }
 
   @override
   Future<Note?> getNote(int id) async {
+   await open();
     List<Map> maps = await db.query(tableNote,
         columns: [columnId, columnIsOpen, columnTitle, columnDate, columnDescription, columnImage],
         where: '$columnId = ?',
@@ -69,6 +71,7 @@ class DbManager implements NoteRepository {
 
   @override
   Future<List<Note>> getAll() async {
+   await open();
     var notes = <Note>[];
     List<Map> maps = await db.query(
       tableNote,
@@ -82,11 +85,13 @@ class DbManager implements NoteRepository {
 
   @override
   Future<int> delete(int id) async {
+   await open();
     return await db.delete(tableNote, where: '$columnId = ?', whereArgs: [id]);
   }
 
   @override
   Future<int> update(Note note) async {
+   await open();
     return await db.update(tableNote, note.toMap(), where: '$columnId = ?', whereArgs: [note.id]);
   }
 

@@ -58,14 +58,13 @@ class HomePage extends GetView<HomeController> {
                     MaterialButton(
                         color: Colors.blue,
                         onPressed: () async {
-                          // Pick an image
                           controller.image.value = await _picker.pickImage(source: ImageSource.gallery);
                         },
                         splashColor: Colors.blueGrey,
                         child: 'Pick image'.text.bold.xl.make().p8()),
                     Obx(() => controller.image.value!.path.isEmpty
                         ? Container()
-                        : Image.file(File(controller.image.value!.path))),
+                        : Image.file(File(controller.image.value!.path)).wh10(context)),
                     MaterialButton(
                         color: Colors.blue,
                         onPressed: () async {

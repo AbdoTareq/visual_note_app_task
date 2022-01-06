@@ -20,13 +20,13 @@ class HomeController extends GetxController {
 
   Future<void> saveNote() async {
     if (formKey.currentState!.validate()) {
-      // var note = Note(
-      //     title: textControllers[0].text,
-      //     description: textControllers[1].text,
-      //     dateInMiliSeconds: selectedDate.string,
-      //     image: image.value!.path,
-      //     isOpen: isOpen.value ? 1 : 0);
-      // logger.i("${(await repository.insert(note)).toMap()}");
+      var note = Note(
+          title: textControllers[0].text,
+          description: textControllers[1].text,
+          dateInMiliSeconds: selectedDate.string,
+          image: image.value!.path,
+          isOpen: isOpen.value ? 1 : 0);
+      logger.i("${(await repository.insert(note)).toMap()}");
     }
   }
 }
