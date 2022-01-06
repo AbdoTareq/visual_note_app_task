@@ -3,8 +3,10 @@ import 'package:velocity_x/velocity_x.dart';
 
 class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   const CustomAppBar({
-    Key? key,
+    Key? key,required this.title,
   }) : super(key: key);
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
       iconTheme: const IconThemeData(color: Colors.grey),
       centerTitle: false,
       titleSpacing: 0,
-      title: 'Account Settings'.text.start.color(Theme.of(context).primaryColor).bold.make().p8(),
+      title: title.text.start.color(Theme.of(context).primaryColor).bold.make().p8(),
     );
   }
 

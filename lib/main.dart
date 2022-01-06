@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
       initialBinding: AppBinding(),
       home: AnimatedSplash(
         imagePath: 'assets/images/logo.png',
-        home: const HomePage(),
+        home: HomePage(),
         duration: 1400,
         type: AnimatedSplashType.StaticDuration,
       ),
