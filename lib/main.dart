@@ -20,7 +20,7 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  final bool language = GetStorage().read('language') ?? false;
+  final bool isEnglish = GetStorage().read('language') ?? true;
 
   MyApp({Key? key}) : super(key: key);
   @override
@@ -32,11 +32,11 @@ class MyApp extends StatelessWidget {
       title: 'Visual Note App',
       translations: MyTranslation(),
       // change theme from darkmode default value app setting controller
-      locale: language ? const Locale('en', 'US') : const Locale('ar', 'EG'),
+      locale: isEnglish ? const Locale('en', 'US') : const Locale('ar', 'EG'),
       initialBinding: AppBinding(),
       home: AnimatedSplash(
         imagePath: 'assets/images/logo.png',
-        home: HomePage(),
+        home: const HomePage(),
         duration: 1400,
         type: AnimatedSplashType.StaticDuration,
       ),

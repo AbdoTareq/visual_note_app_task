@@ -6,9 +6,10 @@ import 'package:get_storage/get_storage.dart';
 
 import '../../constants.dart';
 
+// Controll global app settings language & darkmode
 class AppSettingsController extends GetxController {
   final darkMode = false.obs;
-  final lang = false.obs;
+  final lang = true.obs;
   final box = GetStorage();
 
   @override
@@ -29,7 +30,7 @@ class AppSettingsController extends GetxController {
 
   void addLanguageListener() {
     box.listenKey('language', (value) {
-      Get.updateLocale(!value ? const Locale('en', 'US') : const Locale('ar', 'EG'));
+      Get.updateLocale(value ? const Locale('en', 'US') : const Locale('ar', 'EG'));
     });
   }
 }
