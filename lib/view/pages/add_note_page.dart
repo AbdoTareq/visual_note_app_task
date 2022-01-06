@@ -35,17 +35,17 @@ class AddNotePage extends GetView<NoteController> {
             child: ListView(
               children: [
                 60.heightBox,
-                'Add Note:'.text.bold.xl2.color(kPrimaryColor).xl.make().p8(),
+                'Add Note:'.tr.text.bold.xl2.color(kPrimaryColor).xl.make().p8(),
                 20.heightBox,
                 TextInput(
                   controller: controller.textControllers[0],
                   hint: 'Title',
-                  validate: (value) => value!.isEmpty ? 'Eenter some text' : null,
+                  validate: (value) => value!.isEmpty ? 'Eenter some text'.tr : null,
                 ),
                 TextInput(
                   controller: controller.textControllers[1],
                   hint: 'Description',
-                  validate: (value) => value!.isEmpty ? 'Eenter some text' : null,
+                  validate: (value) => value!.isEmpty ? 'Eenter some text'.tr : null,
                 ),
                 Obx(
                   () => CheckboxListTile(
@@ -66,7 +66,7 @@ class AddNotePage extends GetView<NoteController> {
                           controller.image.value = await _picker.pickImage(source: ImageSource.camera);
                         },
                         splashColor: Colors.blueGrey,
-                        child: 'Pick image'.text.bold.xl.make().p8()),
+                        child: 'Pick image'.tr.text.bold.xl.make().p8()),
                     Obx(() => controller.image.value!.path.isEmpty
                         ? Container()
                         : Image.file(File(controller.image.value!.path)).wh10(context)),

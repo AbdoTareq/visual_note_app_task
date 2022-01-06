@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.visual_note">
+    package="com.task.visualnote.visual_note">
    <application
         android:label="visual_note"
         android:name="${applicationName}"

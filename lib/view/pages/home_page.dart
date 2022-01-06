@@ -26,7 +26,7 @@ class HomePage extends GetView<NoteController> {
               ? 'no notes, add one'.tr.text.xl2.bold.makeCentered()
               : Column(
                   children: [
-                    'Swip note to delete & tap to edit'.text.bold.xl.red500.make().p8(),
+                    'Swip note to delete & tap to edit'.tr.text.bold.xl.red500.make().p8(),
                     ListView.separated(
                         separatorBuilder: (context, index) => const Divider(height: 1),
                         itemCount: controller.notes.length,
@@ -47,7 +47,7 @@ class HomePage extends GetView<NoteController> {
                                     trailing: Column(
                                       children: [
                                         item.dateInMiliSeconds.substring(0, 10).text.make().p8(),
-                                        (item.isOpen == 1 ? 'Open' : 'Closed').text.make(),
+                                        (item.isOpen == 1 ? 'Open' : 'Closed').tr.text.make(),
                                       ],
                                     ),
                                   ),

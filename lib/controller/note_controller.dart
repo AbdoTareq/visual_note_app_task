@@ -27,6 +27,7 @@ class NoteController extends GetxController {
     super.onReady();
   }
 
+  // this to set ui fields when update a note
   setFieldsToIfUpdateNote(Note note) {
     textControllers[0].text = note.title;
     textControllers[1].text = note.description;
@@ -56,12 +57,14 @@ class NoteController extends GetxController {
         return showWarningDialog(text: 'Pick an image');
       }
       var note = id == null
+          // create
           ? Note(
               title: textControllers[0].text,
               description: textControllers[1].text,
               dateInMiliSeconds: selectedDate.string,
               image: image.value!.path,
               isOpen: isOpen.value ? 1 : 0)
+          // update
           : Note(
               id: id,
               title: textControllers[0].text,
@@ -70,13 +73,13 @@ class NoteController extends GetxController {
               image: image.value!.path,
               isOpen: isOpen.value ? 1 : 0);
       id == null ? (await repository.insert(note)).toMap() : (await repository.update(note));
-      logger.i("$id");
       await getAll();
       clearFields();
       Get.back();
     }
   }
 
+  // this to clear ui Fields after updating or creating
   clearFields() {
     image = XFile('').obs;
     selectedDate(DateTime(1960));
