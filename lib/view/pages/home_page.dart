@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:visual_note_app_task/constants.dart';
 import 'package:visual_note_app_task/controller/home_controller.dart';
 import 'package:visual_note_app_task/view/widgets/app_drawer.dart';
 import 'package:visual_note_app_task/view/widgets/custom_app_bar.dart';
@@ -24,39 +25,78 @@ class HomePage extends GetView<HomeController> {
         ),
         drawer: const AppDrawer(),
         body: SafeArea(
-          child: ListView(
-            children: [
-              60.heightBox,
-              TextInput(
-                controller: controller.textControllers[0],
-                hint: 'Title',
-              ),
-              TextInput(
-                controller: controller.textControllers[1],
-                hint: 'Description',
-              ),
-              Obx(
-                () => CheckboxListTile(
-                  contentPadding: EdgeInsets.zero,
-                  controlAffinity: ListTileControlAffinity.leading,
-                  title: Text('isOpen'.tr),
-                  value: controller.isOpen.value,
-                  onChanged: (value) => controller.isOpen.toggle(),
+          child: Form(
+            key: controller.formKey,
+            child: ListView(
+              children: [
+                60.heightBox,
+                'Add Note:'.text.bold.xl2.color(kPrimaryColor).xl.make().p8(),
+                20.heightBox,
+                TextInput(
+                  controller: controller.textControllers[0],
+                  hint: 'Title',
+                  validate: (value) => value!.isEmpty ? 'Eenter some text' : null,
                 ),
-              ),
-              MaterialButton(
-                  color: Colors.blue,
-                  onPressed: () async {
-                    // Pick an image
-                    controller.image.value = await _picker.pickImage(source: ImageSource.gallery);
-                  },
-                  splashColor: Colors.blueGrey,
-                  child: 'Pick image'.text.bold.xl.make().p8()),
-              Obx(() => controller.image.value!.path.isEmpty
-                  ? Container()
-                  : Image.file(File(controller.image.value!.path)))
-            ],
-          ).p16(),
+                TextInput(
+                  controller: controller.textControllers[1],
+                  hint: 'Description',
+                  validate: (value) => value!.isEmpty ? 'Eenter some text' : null,
+                ),
+                Obx(
+                  () => CheckboxListTile(
+                    contentPadding: EdgeInsets.zero,
+                    controlAffinity: ListTileControlAffinity.leading,
+                    title: Text('isOpen'.tr),
+                    value: controller.isOpen.value,
+                    onChanged: (value) => controller.isOpen.toggle(),
+                  ),
+                ),
+                20.heightBox,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    MaterialButton(
+                        color: Colors.blue,
+                        onPressed: () async {
+                          // Pick an image
+                          controller.image.value = await _picker.pickImage(source: ImageSource.gallery);
+                        },
+                        splashColor: Colors.blueGrey,
+                        child: 'Pick image'.text.bold.xl.make().p8()),
+                    Obx(() => controller.image.value!.path.isEmpty
+                        ? Container()
+                        : Image.file(File(controller.image.value!.path))),
+                    MaterialButton(
+                        color: Colors.blue,
+                        onPressed: () async {
+                          controller.selectedDate(await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(1950),
+                              lastDate: DateTime.now()));
+                        },
+                        splashColor: Colors.blueGrey,
+                        child: Obx(
+                          () => (controller.selectedDate.value.year == 1960
+                                  ? 'Pick a date'
+                                  : controller.selectedDate.string.substring(0, 10))
+                              .text
+                              .bold
+                              .xl
+                              .make()
+                              .p8(),
+                        )),
+                  ],
+                ),
+                20.heightBox,
+                MaterialButton(
+                    color: Colors.blue,
+                    onPressed: controller.saveNote,
+                    splashColor: Colors.blueGrey,
+                    child: 'Save'.text.bold.xl.make().p8()),
+              ],
+            ).p16(),
+          ),
         ));
   }
 }

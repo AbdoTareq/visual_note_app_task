@@ -2,14 +2,14 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 class Note {
-  final int id;
+  final int? id;
   final String title;
   final String description;
-  final int dateInMiliSeconds;
-  final Uint8List image;
+  final String dateInMiliSeconds;
+  final String image;
   final int isOpen;
   Note({
-    required this.id,
+    this.id,
     required this.title,
     required this.description,
     required this.dateInMiliSeconds,
@@ -21,8 +21,8 @@ class Note {
     int? id,
     String? title,
     String? description,
-    int? dateInMiliSeconds,
-    Uint8List? image,
+    String? dateInMiliSeconds,
+    String? image,
     int? isOpen,
   }) {
     return Note(
@@ -48,11 +48,11 @@ class Note {
 
   factory Note.fromMap(Map<dynamic, dynamic> map) {
     return Note(
-      id: map['id']?.toInt() ?? 0,
+      id: map['id']?.toInt(),
       title: map['title'] ?? '',
       description: map['description'] ?? '',
-      dateInMiliSeconds: map['dateInMiliSeconds']?.toInt() ?? 0,
-      image: map['image'],
+      dateInMiliSeconds: map['dateInMiliSeconds'] ?? '',
+      image: map['image'] ?? '',
       isOpen: map['isOpen']?.toInt() ?? 0,
     );
   }

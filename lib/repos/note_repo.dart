@@ -1,6 +1,8 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:visual_note_app_task/models/note.dart';
 
+import '../export.dart';
+
 const String tableNote = 'Note';
 
 const String columnId = '_id';
@@ -28,18 +30,23 @@ class DbManager implements NoteRepository {
   }
   late Database db;
 
-  Future open(String path) async {
-    db = await openDatabase(path, version: 1, onCreate: (Database db, int version) async {
-      await db.execute('''
-create table $tableNote ( 
-  $columnId integer primary key autoincrement, 
-  $columnTitle text not null,
-  $columnDescription text not null,
-  $columnDate integer not null,
-  $columnImage blob not null,
-  $columnIsOpen integer not null)
-''');
-    });
+  Future open() async {
+    // Get a location using getDatabasesPath
+    var databasesPath = await getDatabasesPath();
+    String path = databasesPath + 'demo.db';
+    logger.i(path);
+
+//     db = await openDatabase(path, version: 1, onCreate: (Database db, int version) async {
+//       await db.execute('''
+// create table $tableNote (
+//   $columnId integer primary key autoincrement,
+//   $columnTitle text not null,
+//   $columnDescription text not null,
+//   $columnDate integer not null,
+//   $columnImage blob not null,
+//   $columnIsOpen integer not null)
+// ''');
+//     });
   }
 
   @override
