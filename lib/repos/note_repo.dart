@@ -34,7 +34,6 @@ class DbManager implements NoteRepository {
     // Get a location using getDatabasesPath
     var databasesPath = await getDatabasesPath();
     String path = databasesPath + '/demo.db';
-    logger.i(path);
 
     db = await openDatabase(path, version: 1, onCreate: (Database db, int version) async {
       await db.execute('''
@@ -51,14 +50,14 @@ create table $tableNote (
 
   @override
   Future<Note> insert(Note note) async {
-   await open();
+    await open();
     note.copyWith(id: await db.insert(tableNote, note.toMap()));
     return note;
   }
 
   @override
   Future<Note?> getNote(int id) async {
-   await open();
+    await open();
     List<Map> maps = await db.query(tableNote,
         columns: [columnId, columnIsOpen, columnTitle, columnDate, columnDescription, columnImage],
         where: '$columnId = ?',
@@ -71,7 +70,7 @@ create table $tableNote (
 
   @override
   Future<List<Note>> getAll() async {
-   await open();
+    await open();
     var notes = <Note>[];
     List<Map> maps = await db.query(
       tableNote,
@@ -85,13 +84,13 @@ create table $tableNote (
 
   @override
   Future<int> delete(int id) async {
-   await open();
+    await open();
     return await db.delete(tableNote, where: '$columnId = ?', whereArgs: [id]);
   }
 
   @override
   Future<int> update(Note note) async {
-   await open();
+    await open();
     return await db.update(tableNote, note.toMap(), where: '$columnId = ?', whereArgs: [note.id]);
   }
 

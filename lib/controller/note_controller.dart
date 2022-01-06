@@ -26,19 +26,55 @@ class NoteController extends GetxController {
     super.onReady();
   }
 
+  setFieldsToUpdate(Note note) {
+     
+    textControllers[0].text = note.title;
+    textControllers[1].text = note.description;
+    isOpen(note.isOpen == 1);
+    try {
+      selectedDate(DateTime(
+        int.parse(note.dateInMiliSeconds.substring(0, 4)),
+        int.parse(note.dateInMiliSeconds.substring(5, 7)),
+        int.parse(note.dateInMiliSeconds.substring(8, 10)),
+      ));
+    } catch (e) {
+      logger.i("$e");
+    }
+    image(XFile(note.image));
+  }
+
   Future getAll() async => notes(await repository.getAll());
 
-  Future<void> saveNote() async {
+  Future delete(int id) async => await repository.delete(id);
+
+  Future<void> saveNote({int? id}) async {
     if (formKey.currentState!.validate()) {
-      var note = Note(
-          title: textControllers[0].text,
-          description: textControllers[1].text,
-          dateInMiliSeconds: selectedDate.string,
-          image: image.value!.path,
-          isOpen: isOpen.value ? 1 : 0);
-      logger.i("${(await repository.insert(note)).toMap()}");
+      var note = id == null
+          ? Note(
+              title: textControllers[0].text,
+              description: textControllers[1].text,
+              dateInMiliSeconds: selectedDate.string,
+              image: image.value!.path,
+              isOpen: isOpen.value ? 1 : 0)
+          : Note(
+              id: id,
+              title: textControllers[0].text,
+              description: textControllers[1].text,
+              dateInMiliSeconds: selectedDate.string,
+              image: image.value!.path,
+              isOpen: isOpen.value ? 1 : 0);
+      id == null ? (await repository.insert(note)).toMap() : (await repository.update(note));
+      logger.i("$id");
+      await getAll();
+      clearFields();
+      Get.back();
     }
-    await getAll();
-    Get.back();
+  }
+
+  clearFields() {
+    image = XFile('').obs;
+    selectedDate(DateTime(1960));
+    isOpen = false.obs;
+    textControllers = List.generate(2, (index) => TextEditingController());
   }
 }

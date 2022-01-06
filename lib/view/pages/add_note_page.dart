@@ -5,18 +5,24 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:visual_note_app_task/constants.dart';
 import 'package:visual_note_app_task/controller/note_controller.dart';
+import 'package:visual_note_app_task/models/note.dart';
 import 'package:visual_note_app_task/view/widgets/app_drawer.dart';
 import 'package:visual_note_app_task/view/widgets/custom_app_bar.dart';
 import 'package:visual_note_app_task/view/widgets/text_input.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class AddNotePage extends GetView<NoteController> {
-  AddNotePage({Key? key}) : super(key: key);
+  AddNotePage(this.note, {Key? key}) : super(key: key);
+
+  final Note? note;
 
   final ImagePicker _picker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
+    if (note != null) {
+      controller.setFieldsToUpdate(note!);
+    }
     return Scaffold(
         appBar: const CustomAppBar(
           title: 'Note App',
@@ -88,7 +94,7 @@ class AddNotePage extends GetView<NoteController> {
                 20.heightBox,
                 MaterialButton(
                     color: Colors.blue,
-                    onPressed: controller.saveNote,
+                    onPressed: () async => await controller.saveNote(id: note != null ? note!.id : null),
                     splashColor: Colors.blueGrey,
                     child: 'Save'.text.bold.xl.make().p8()),
               ],

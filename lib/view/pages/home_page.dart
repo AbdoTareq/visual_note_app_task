@@ -25,29 +25,41 @@ class HomePage extends GetView<NoteController> {
         child: GetX<NoteController>(builder: (_) {
           return _.notes.isEmpty
               ? 'ar_no_data'.tr.text.makeCentered()
-              : ListView.separated(
-                  separatorBuilder: (context, index) => const Divider(height: 1),
-                  itemCount: controller.notes.length,
-                  itemBuilder: (context, index) {
-                    final item = controller.notes[index];
-                    return index == controller.notes.length
-                        ? const Divider(height: 80)
-                        : ListTile(
-                            title: item.title.text.make(),
-                            subtitle: item.title.text.make(),
-                            leading: Image.file(File(item.image), width: 66, height: 66, fit: BoxFit.fill),
-                            trailing: Column(
-                              children: [
-                                item.dateInMiliSeconds.substring(0, 10).text.make().p8(),
-                                (item.isOpen == 1 ? 'Open' : 'Closed').text.make(),
-                              ],
-                            ),
-                          );
-                  });
+              : Column(
+                  children: [
+                    'Swip note to delete & tap to edit'.text.bold.xl.red500.make().p8(),
+                    ListView.separated(
+                        separatorBuilder: (context, index) => const Divider(height: 1),
+                        itemCount: controller.notes.length,
+                        itemBuilder: (context, index) {
+                          final item = controller.notes[index];
+                          return index == controller.notes.length
+                              ? const Divider(height: 80)
+                              : Dismissible(
+                                  background: Container(color: Colors.red),
+                                  key: Key(item.id.toString()),
+                                  onDismissed: (direction) async => await controller.delete(item.id!),
+                                  child: ListTile(
+                                    onTap: () => Get.to(() => AddNotePage(item)),
+                                    title: item.title.text.make(),
+                                    subtitle: item.description.text.make(),
+                                    leading:
+                                        Image.file(File(item.image), width: 66, height: 66, fit: BoxFit.fill),
+                                    trailing: Column(
+                                      children: [
+                                        item.dateInMiliSeconds.substring(0, 10).text.make().p8(),
+                                        (item.isOpen == 1 ? 'Open' : 'Closed').text.make(),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                        }).expand(),
+                  ],
+                );
         }),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.to(() => AddNotePage()),
+        onPressed: () => Get.to(() => AddNotePage(null)),
         child: const Icon(Icons.add, color: Colors.white),
         backgroundColor: Colors.blue,
       ),
