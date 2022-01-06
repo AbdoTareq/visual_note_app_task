@@ -1,7 +1,8 @@
 import 'lang_keys.dart';
 
 const Map<String, String> ar = {
-  ar_login: 'تسجيل الدخول',
+  ar_add_note: 'اضف ملاحظة',
+  ar_no_note: 'لا يوجد ملاحظات اضف واحده',
   ar_signup: 'انشاء حساب',
   ar_watch: 'انتبه!',
   ar_logout: 'تسجيل خروج',

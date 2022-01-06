@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:visual_note_app_task/constants.dart';
 import 'package:visual_note_app_task/controller/note_controller.dart';
+import 'package:visual_note_app_task/utils/langs/lang_keys.dart';
 import 'package:visual_note_app_task/view/pages/add_note_page.dart';
 import 'package:visual_note_app_task/view/widgets/app_drawer.dart';
 import 'package:visual_note_app_task/view/widgets/custom_app_bar.dart';
@@ -17,13 +18,13 @@ class HomePage extends GetView<NoteController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
-        title: 'Note App',
+        title: ar_add_note,
       ),
       drawer: const AppDrawer(),
       body: SafeArea(
         child: GetX<NoteController>(builder: (_) {
           return _.notes.isEmpty
-              ? 'no notes, add one'.tr.text.xl2.bold.makeCentered()
+              ? ar_no_note.tr.text.xl2.bold.makeCentered()
               : Column(
                   children: [
                     'Swip note to delete & tap to edit'.tr.text.bold.xl.red500.make().p8(),

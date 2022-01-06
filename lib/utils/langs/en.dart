@@ -10,4 +10,6 @@ const Map<String, String> en = {
   ar_passWar: 'Password is empty',
   ar_mailWar: 'Mail is not valid',
   ar_enter_fields: 'Enter required fields',
+  ar_add_note: 'Add Note',
+  ar_no_note: 'No Note, Add one',
 };
