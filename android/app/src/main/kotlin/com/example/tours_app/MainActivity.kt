@@ -1,4 +1,4 @@
-package com.example.tours_app
+package com.example.visual_note
 
 import io.flutter.embedding.android.FlutterActivity
 

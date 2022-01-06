@@ -1,8 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:visual_note_app_task/models/note.dart';
 
-import '../export.dart';
-
 const String tableNote = 'Note';
 
 const String columnId = '_id';
@@ -20,6 +18,7 @@ abstract class NoteRepository {
   Future<int> delete(int id);
 }
 
+// this to interact with sql db
 class DbManager implements NoteRepository {
   DbManager._privateConstructor();
 
