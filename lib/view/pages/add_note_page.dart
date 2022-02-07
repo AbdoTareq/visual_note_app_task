@@ -63,7 +63,7 @@ class AddNotePage extends GetView<NoteController> {
                     MaterialButton(
                         color: kPrimaryColor,
                         onPressed: () async {
-                          controller.image.value = await _picker.pickImage(source: ImageSource.camera);
+                          controller.image.value = await _picker.pickImage(source: ImageSource.gallery);
                         },
                         splashColor: Colors.blueGrey,
                         child: 'Pick image'.tr.text.bold.xl.make().p8()),

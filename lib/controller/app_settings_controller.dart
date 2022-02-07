@@ -33,4 +33,4 @@ class AppSettingsController extends GetxController {
       Get.updateLocale(value ? const Locale('en', 'US') : const Locale('ar', 'EG'));
     });
   }
-}
+} 

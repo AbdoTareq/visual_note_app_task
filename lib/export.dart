@@ -11,6 +11,7 @@ export 'constants.dart';
 // utils
 // most used packages
 export 'package:velocity_x/velocity_x.dart';
+export 'package:flutter/material.dart';
 // models
 // dependency injection
 export 'app_bindings.dart';
